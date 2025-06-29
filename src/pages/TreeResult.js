@@ -1,0 +1,381 @@
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "../styles/container.css";
+import "./TreeResult.css";
+import arrowdown from "../assets/images/Vector 39.png";
+import tree_1 from "../assets/images/tree_1.jpg";
+import tree_2 from "../assets/images/tree_2.jpg";
+import tree_3 from "../assets/images/tree_3.jpg";
+import tree_4 from "../assets/images/tree_4.jpg";
+
+const TreeResult = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const formData = location.state?.formData;
+  const sajuResult = location.state?.sajuResult;
+  const userName = formData?.name || "사용자";
+
+  // 오행 데이터 (기본값 설정)
+  const elements = sajuResult?.elements || {
+    tree: 0,
+    fire: 2,
+    ground: 2,
+    gold: 2,
+    water: 2,
+  };
+
+  // 최솟값 찾기
+  const minValue = Math.min(...Object.values(elements));
+
+  // 각 오행이 최솟값인지 확인하는 함수
+  const isMinElement = (value) => value === minValue;
+
+  const handleRestart = () => {
+    navigate("/");
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `${userName}님의 사주 결과`,
+      text: `${userName}님의 사주를 분석했어요! 부족한 오행을 확인해보세요.`,
+      url: 'https://1in5.wep.app'
+    };
+
+    // Web Share API 지원 여부 확인 (주로 모바일에서 지원)
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        console.log('공유 성공');
+      } catch (error) {
+        // 사용자가 공유를 취소한 경우
+        if (error.name !== 'AbortError') {
+          console.error('공유 실패:', error);
+          // Web Share API 실패 시 클립보드 복사로 fallback
+          fallbackToClipboard();
+        }
+      }
+    } else {
+      // Web Share API를 지원하지 않는 브라우저에서는 클립보드 복사
+      fallbackToClipboard();
+    }
+  };
+
+  const fallbackToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText('https://1in5.wep.app');
+      alert('링크가 클립보드에 복사되었습니다! 📋');
+    } catch (error) {
+      console.error('클립보드 복사 실패:', error);
+      // 브라우저가 clipboard API를 지원하지 않는 경우 fallback
+      const textArea = document.createElement('textarea');
+      textArea.value = 'https://1in5.wep.app';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        alert('링크가 클립보드에 복사되었습니다! 📋');
+      } catch (fallbackError) {
+        alert('클립보드 복사에 실패했습니다. 수동으로 복사해주세요: https://1in5.wep.app');
+      }
+      document.body.removeChild(textArea);
+    }
+  };
+
+  return (
+    <div className="page-wrapper">
+      <div className="container">
+        <div className="result-content">
+          {/* 상단 영상 */}
+          <div className="result-icon-container">
+            <div className="result-video-area">
+              <video
+                className="loading-video"
+                autoPlay
+                loop
+                muted
+                playsInline
+                disablePictureInPicture
+                preload="auto"
+              >
+                <source src="/videos/Main.mp4" type="video/mp4" />
+                비디오를 지원하지 않는 브라우저입니다.
+              </video>
+            </div>
+          </div>
+
+          {/* 결과 헤더 */}
+          <div className="result-header">
+            <div>
+              <h1 className="result-title">
+                공감 능력 0%
+                <br />
+                로봇이신가요? 🤖
+              </h1>
+              <p className="result-description">
+                {userName}님의 사주에는 나무가 부족해요.
+              </p>
+            </div>
+
+            <div>
+              <ul className="characteristics-list">
+                <li>
+                  • <span className="bold">낭만</span>과{" "}
+                  <span className="bold">감수성</span>이 부족해요.
+                </li>
+                <li>
+                  • <span className="bold">직설적인 화법</span>을 사용해요.
+                </li>
+                <li>
+                  • <span className="bold">차갑고 시니컬</span>한 이미지를
+                  가지고 있어요.
+                </li>
+              </ul>
+              <div className="arrowdown-container">
+                <img className="arrowdown" src={arrowdown} alt="" />
+              </div>
+            </div>
+          </div>
+
+          <div className="des-wrap">
+            {/* 오행 차트 섹션 */}
+            <div className="elements-chart-section">
+              <h3 className="section-title">{userName}님이 가진 오행</h3>
+              <p className="section-subtitle">
+                나의 기운을 알면, 부족한 부분을 채워
+                <br />
+                삶의 균형을 만들 수 있어요.
+              </p>
+
+              <div className="chart-container">
+                <div className="elements-chart">
+                  <div className="elements-counts">
+                    <div className="element-count">
+                      <span
+                        className={`count ${
+                          isMinElement(elements.tree) ? "" : "notminCount"
+                        }`}
+                      >
+                        {elements.tree}개
+                      </span>
+                    </div>
+                    <div className="element-count">
+                      <span
+                        className={`count ${
+                          isMinElement(elements.fire) ? "" : "notminCount"
+                        }`}
+                      >
+                        {elements.fire}개
+                      </span>
+                    </div>
+                    <div className="element-count">
+                      <span
+                        className={`count ${
+                          isMinElement(elements.water) ? "" : "notminCount"
+                        }`}
+                      >
+                        {elements.water}개
+                      </span>
+                    </div>
+                    <div className="element-count">
+                      <span
+                        className={`count ${
+                          isMinElement(elements.gold) ? "" : "notminCount"
+                        }`}
+                      >
+                        {elements.gold}개
+                      </span>
+                    </div>
+                    <div className="element-count">
+                      <span
+                        className={`count ${
+                          isMinElement(elements.ground) ? "" : "notminCount"
+                        }`}
+                      >
+                        {elements.ground}개
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="chart-visual">
+                    <div className="chart-bars">
+                      <div
+                        className={`chart-bar tree-bar ${
+                          isMinElement(elements.tree) ? "" : "notminElement"
+                        }`}
+                        style={{
+                          height: `${Math.max((elements.tree / 5) * 100, 10)}%`,
+                        }}
+                      ></div>
+                      <div
+                        className={`chart-bar fire-bar ${
+                          isMinElement(elements.fire) ? "" : "notminElement"
+                        }`}
+                        style={{
+                          height: `${Math.max((elements.fire / 5) * 100, 10)}%`,
+                        }}
+                      ></div>
+                      <div
+                        className={`chart-bar water-bar ${
+                          isMinElement(elements.water) ? "" : "notminElement"
+                        }`}
+                        style={{
+                          height: `${Math.max(
+                            (elements.water / 5) * 100,
+                            10
+                          )}%`,
+                        }}
+                      ></div>
+                      <div
+                        className={`chart-bar gold-bar ${
+                          isMinElement(elements.gold) ? "" : "notminElement"
+                        }`}
+                        style={{
+                          height: `${Math.max((elements.gold / 5) * 100, 10)}%`,
+                        }}
+                      ></div>
+                      <div
+                        className={`chart-bar ground-bar ${
+                          isMinElement(elements.ground) ? "" : "notminElement"
+                        }`}
+                        style={{
+                          height: `${Math.max(
+                            (elements.ground / 5) * 100,
+                            10
+                          )}%`,
+                        }}
+                      ></div>
+                    </div>
+
+                    <div className="chart-icons">
+                      <span className="chart-icon">🌳</span>
+                      <span className="chart-icon">🔥</span>
+                      <span className="chart-icon">🌍</span>
+                      <span className="chart-icon">🔑</span>
+                      <span className="chart-icon">💧</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p className="chart-description">
+                0~1개 부족 ㅣ 2~3개 적당 ㅣ 4개 이상 과다
+              </p>
+            </div>
+
+            {/* 2025년 섹션 */}
+            <div className="year-section">
+              <h3 className="section-title">
+                <span>📅</span>2025년, 어떠셨나요?
+              </h3>
+              <p className="year-description">
+                2025년에는 나무의 기운이 들어왔어요.
+                <br />
+                나무가 부족한 {userName}님에게는 숨통이 트였던 한 해였을 수
+                있겠어요. 일이 착착 풀리진 않았지만, 뭔가 해볼 수 있다는 희망이
+                생기기도 했을 거예요.
+                <br />
+                <br />
+                하지만 2026년에는 나무의 기운이 채워지지 않아서, 체력관리와 감정
+                컨트롤이 어려워질 수 있어요.
+              </p>
+            </div>
+
+            {/* 나무 관련 조언 섹션 */}
+            <div className="advice-section">
+              <h3 className="advice-title">
+                <span>🌳</span>나무를 채우면 이런 게 좋아요.
+              </h3>
+              <ul className="advice-list">
+                <li>• 타인을 이해하는 공감능력이 생겨요 👂</li>
+                <li>• 친화력이 좋아져요 👯‍♂️</li>
+                <li>• 자신감이 생겨요 💪</li>
+              </ul>
+            </div>
+
+            {/* 개운 아이템 섹션 */}
+            <div className="items-section">
+              <h3 className="items-title">
+                <span>🍀</span>행운 가득 채워줄 개운 아이템
+              </h3>
+              <div className="items-wrap">
+                <div className="items-grid">
+                  <a
+                    href="https://www.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="item-card">
+                      <div className="item-image-placeholder">
+                        <img src={tree_1} alt="Keychain" />
+                      </div>
+                      <p className="item-name">Keychain</p>
+                    </div>
+                  </a>
+
+                  <a
+                    href="https://www.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="item-card">
+                      <div className="item-image-placeholder">
+                        <img src={tree_2} alt="Sticker" />
+                      </div>
+                      <p className="item-name">Sticker</p>
+                    </div>
+                  </a>
+
+                  <a
+                    href="https://www.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="item-card">
+                      <div className="item-image-placeholder">
+                        <img src={tree_3} alt="Landscape Poaster" />
+                      </div>
+                      <p className="item-name">Landscape Poaster</p>
+                    </div>
+                  </a>
+
+                  <a
+                    href="https://www.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="item-card">
+                      <div className="item-image-placeholder">
+                        <img src={tree_4} alt="Material Poaster" />
+                      </div>
+                      <p className="item-name">Material Poaster</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <p className="items-description">
+                부족한 오행이 여러 개라면, 다른 기운들도 함께
+                <br />
+                채워주는 것이 좋아요
+              </p>
+            </div>
+
+                         {/* 하단 버튼 */}
+             <div className="result-actions">
+               <button className="action-btn primary" onClick={handleShare}>공유하기</button>
+                          <button className="action-btn secondary">
+                              <a href="https://www.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                부족한 기운 개운하러 가기</a>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TreeResult;
