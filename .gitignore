@@ -28,5 +28,12 @@ yarn-error.log*
 .vscode/
 .idea/
 
+# Firebase
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+pglite-debug.log*
+.firebase/
+
 # 운영체제
 Thumbs.db 
