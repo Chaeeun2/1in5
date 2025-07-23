@@ -15,6 +15,22 @@ const SajuInput = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // input 포커스가 벗어날 때 최상단으로 스크롤
+  const handleInputBlur = () => {
+    // 모바일에서 키보드가 내려간 후 스크롤 조정
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 300);
+  };
+
+  // 버튼 클릭 전 키보드 내리기
+  const handleButtonFocus = () => {
+    // 현재 포커스된 input에서 포커스 제거
+    if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+      document.activeElement.blur();
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     
@@ -71,6 +87,17 @@ const SajuInput = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // 모바일에서 키보드 내리기 및 포커스 제거
+    if (document.activeElement) {
+      document.activeElement.blur();
+    }
+    
+    // iOS Safari에서 viewport 재조정을 위한 추가 처리
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+    
     setLoading(true);
 
     try {
@@ -133,8 +160,47 @@ const SajuInput = () => {
       let sajuResult = null;
 
       if (existingData) {
-        // 2. DB에 있다면 기존 부족한 오행 사용
+        // 2. DB에 있다면 기존 부족한 오행 사용하되 사주 상세 정보도 계산해서 출력
         lackingElement = existingData.lackingElement;
+        
+        // 사주 상세 정보 계산
+        let birthTimeForCalculation = '';
+        if (!formData.unknownTime) {
+          const timeNumeric = formData.birthTime.replace(/[^0-9]/g, '');
+          const hour = Math.floor(parseInt(timeNumeric) / 100);
+          const minute = parseInt(timeNumeric) % 100;
+          birthTimeForCalculation = `${hour}:${minute.toString().padStart(2, '0')}`;
+        }
+        
+        const tempSajuResult = calculateSaju(
+          parseInt(birthYear),
+          parseInt(birthMonth),
+          parseInt(birthDay),
+          birthTimeForCalculation || '12:00'
+        );
+/*
+        // 콘솔에 사주 정보 출력 (기존 데이터가 있는 경우)
+        console.log('====== 사주팔자 정보 (기존 데이터) ======');
+        console.log(`이름: ${formData.name}`);
+        console.log(`생년월일: ${birthYear}년 ${birthMonth}월 ${birthDay}일`);
+        console.log(`태어난 시간: ${formData.unknownTime ? '모름' : formData.birthTime}`);
+        console.log('');
+        console.log('사주팔자:');
+        console.log(`년주: ${tempSajuResult.saju.year}`);
+        console.log(`월주: ${tempSajuResult.saju.month}`);
+        console.log(`일주: ${tempSajuResult.saju.day}`);
+        console.log(`시주: ${tempSajuResult.saju.hour}`);
+        console.log('');
+        console.log('오행 분포:');
+        console.log(`목(木): ${tempSajuResult.elements.tree}개`);
+        console.log(`화(火): ${tempSajuResult.elements.fire}개`);
+        console.log(`토(土): ${tempSajuResult.elements.ground}개`);
+        console.log(`금(金): ${tempSajuResult.elements.gold}개`);
+        console.log(`수(水): ${tempSajuResult.elements.water}개`);
+        console.log('');
+        console.log(`부족한 오행: ${lackingElement} (DB에서 가져옴)`);
+        console.log('========================================');
+*/
       } else {
         // 3. DB에 없다면 사주 계산 후 저장
         // 시간과 분을 모두 전달
@@ -152,29 +218,29 @@ const SajuInput = () => {
           parseInt(birthDay),
           birthTimeForCalculation || '12:00'
         );
-        
-        // 계산된 사주 결과를 콘솔에 출력
-        console.log('========== 사주 계산 결과 ==========');
-        console.log('👤 이름:', formData.name);
-        console.log('📅 생년월일:', `${birthYear}년 ${birthMonth}월 ${birthDay}일`);
-        console.log('🕐 태어난 시간:', formData.unknownTime ? '모름' : `${birthHour}시`);
+   /*     
+        // 콘솔에 사주 정보 출력
+        console.log('====== 사주팔자 정보 ======');
+        console.log(`이름: ${formData.name}`);
+        console.log(`생년월일: ${birthYear}년 ${birthMonth}월 ${birthDay}일`);
+        console.log(`태어난 시간: ${formData.unknownTime ? '모름' : formData.birthTime}`);
         console.log('');
-        console.log('🔮 사주 (연월일시):');
-        console.log(`   년주: ${sajuResult.saju.year}`);
-        console.log(`   월주: ${sajuResult.saju.month}`);
-        console.log(`   일주: ${sajuResult.saju.day}`);
-        console.log(`   시주: ${sajuResult.saju.hour}`);
+        console.log('사주팔자:');
+        console.log(`년주: ${sajuResult.saju.year}`);
+        console.log(`월주: ${sajuResult.saju.month}`);
+        console.log(`일주: ${sajuResult.saju.day}`);
+        console.log(`시주: ${sajuResult.saju.hour}`);
         console.log('');
-        console.log('🌟 오행 분석:');
-        console.log(`   목(木): ${sajuResult.elements.tree}`);
-        console.log(`   화(火): ${sajuResult.elements.fire}`);
-        console.log(`   토(土): ${sajuResult.elements.ground}`);
-        console.log(`   금(金): ${sajuResult.elements.gold}`);
-        console.log(`   수(水): ${sajuResult.elements.water}`);
+        console.log('오행 분포:');
+        console.log(`목(木): ${sajuResult.elements.tree}개`);
+        console.log(`화(火): ${sajuResult.elements.fire}개`);
+        console.log(`토(土): ${sajuResult.elements.ground}개`);
+        console.log(`금(金): ${sajuResult.elements.gold}개`);
+        console.log(`수(水): ${sajuResult.elements.water}개`);
         console.log('');
-        console.log('⚠️  부족한 오행:', sajuResult.lackingElement);
-        console.log('=====================================');
-        
+        console.log(`부족한 오행: ${sajuResult.lackingElement}`);
+        console.log('==========================');
+        */
         lackingElement = sajuResult.lackingElement;
         
         // Firebase에 저장
@@ -244,7 +310,7 @@ const SajuInput = () => {
 
   return (
     <div className="page-wrapper">
-      <div className="container">
+      <div className="container input-container">
         <div className="header">
           <button className="back-button" onClick={handleBack}>
             ←
@@ -262,6 +328,7 @@ const SajuInput = () => {
               placeholder="홍길동"
               value={formData.name}
               onChange={handleInputChange}
+              onBlur={handleInputBlur}
               required
             />
           </div>
@@ -275,6 +342,7 @@ const SajuInput = () => {
               placeholder="19950505"
               value={formData.birthDate}
               onChange={handleInputChange}
+              onBlur={handleInputBlur}
               maxLength="8"
               required
             />
@@ -290,6 +358,7 @@ const SajuInput = () => {
                 placeholder={formData.unknownTime ? "모름" : "09:10"}
                 value={formData.birthTime}
                 onChange={handleInputChange}
+                onBlur={handleInputBlur}
                 maxLength="4"
                 disabled={formData.unknownTime}
               />
@@ -299,6 +368,7 @@ const SajuInput = () => {
                   name="unknownTime"
                   checked={formData.unknownTime}
                   onChange={handleInputChange}
+                  onBlur={handleInputBlur}
                 />
                 <span className="checkmark">✓</span>
                 잘 모르겠어요
@@ -308,7 +378,13 @@ const SajuInput = () => {
 
           <div className="form-footer">
             <p className="privacy-note">* 개인정보는 다른 용도로 사용되지 않아요</p>
-            <button type="submit" className="submit-btn" disabled={loading}>
+            <button 
+              type="submit" 
+              className="submit-btn" 
+              disabled={loading}
+              onMouseDown={handleButtonFocus}
+              onTouchStart={handleButtonFocus}
+            >
               {loading ? '계산 중...' : '결과 보기 →'}
             </button>
           </div>

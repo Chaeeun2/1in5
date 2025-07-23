@@ -287,6 +287,93 @@ function lunarCalc(year, month, day) {
     }
 }
 
+// 절입 기준 월지 계산 함수
+function getMonthBranchBySeolip(month, day) {
+    // 간단한 날짜 비교를 위해 MMDD 형태로 변환
+    const currentDate = month * 100 + day;
+    
+    // 각 절기 시작일과 해당 월지 (MMDD 형태)
+    if (currentDate >= 204) { // 2/4 입춘 이후 -> 인월
+        if (currentDate >= 306) { // 3/6 경칩 이후 -> 묘월
+            if (currentDate >= 405) { // 4/5 청명 이후 -> 진월
+                if (currentDate >= 506) { // 5/6 입하 이후 -> 사월
+                    if (currentDate >= 606) { // 6/6 망종 이후 -> 오월
+                        if (currentDate >= 707) { // 7/7 소서 이후 -> 미월
+                            if (currentDate >= 808) { // 8/8 입추 이후 -> 신월
+                                if (currentDate >= 908) { // 9/8 백로 이후 -> 유월
+                                    if (currentDate >= 1008) { // 10/8 한로 이후 -> 술월
+                                        if (currentDate >= 1107) { // 11/7 입동 이후 -> 해월
+                                            if (currentDate >= 1207) { // 12/7 대설 이후 -> 자월
+                                                return 0; // 자
+                                            } else {
+                                                return 11; // 해
+                                            }
+                                        } else {
+                                            return 10; // 술
+                                        }
+                                    } else {
+                                        return 9; // 유
+                                    }
+                                } else {
+                                    return 8; // 신
+                                }
+                            } else {
+                                return 7; // 미
+                            }
+                        } else {
+                            return 6; // 오
+                        }
+                    } else {
+                        return 5; // 사
+                    }
+                } else {
+                    return 4; // 진
+                }
+            } else {
+                return 3; // 묘
+            }
+        } else {
+            return 2; // 인
+        }
+    } else {
+        // 2/4 입춘 전
+        if (currentDate >= 106) { // 1/6 소한 이후 -> 축월
+            return 1; // 축
+        } else {
+            return 0; // 자 (1/6 소한 전은 전년 12월의 자월 연장)
+        }
+    }
+}
+
+// 년간과 월지 조합으로 월간 계산
+function getMonthStem(yearStem, monthBranchIndex) {
+    // 전통 월간표: 갑기년, 을경년, 병신년, 정임년, 무계년
+    // 인월(정월)부터 시작하는 순서
+    const monthStemTable = {
+        '갑': ['병', '정', '무', '기', '경', '신', '임', '계', '갑', '을', '병', '정'], // 갑년
+        '을': ['무', '기', '경', '신', '임', '계', '갑', '을', '병', '정', '무', '기'], // 을년  
+        '병': ['경', '신', '임', '계', '갑', '을', '병', '정', '무', '기', '경', '신'], // 병년
+        '정': ['임', '계', '갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'], // 정년
+        '무': ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계', '갑', '을'], // 무년
+        '기': ['병', '정', '무', '기', '경', '신', '임', '계', '갑', '을', '병', '정'], // 기년
+        '경': ['무', '기', '경', '신', '임', '계', '갑', '을', '병', '정', '무', '기'], // 경년
+        '신': ['경', '신','임', '계', '갑', '을', '병', '정', '무', '기', '경', '신'], // 신년
+        '임': ['임', '계', '갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'], // 임년
+        '계': ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계', '갑', '을']  // 계년
+    };
+    
+    // 월지 인덱스를 월간표 인덱스로 변환
+    // 인월(2)이 0번 인덱스, 묘월(3)이 1번 인덱스... 이런 식으로
+    let stemIndex;
+    if (monthBranchIndex >= 2) {
+        stemIndex = monthBranchIndex - 2; // 인=0, 묘=1, 진=2, ..., 해=9
+    } else {
+        stemIndex = monthBranchIndex + 10; // 자=10, 축=11
+    }
+    
+    return monthStemTable[yearStem][stemIndex];
+}
+
 // 사주팔자 계산 함수
 export function calculateSaju(birthyear, birthmonth, birthday, birthTime) {
     tree = 0;
@@ -321,8 +408,9 @@ export function calculateSaju(birthyear, birthmonth, birthday, birthTime) {
     
     const yearStem = heavenlyStems[(yearForSaju - 4) % 10];
     const yearBranch = earthlyBranches[(yearForSaju - 4) % 12];
-    const monthStem = heavenlyStems[(year * 2 + month + 2) % 10];
-    const monthBranch = earthlyBranches[month % 12];
+    const monthBranchIndex = getMonthBranchBySeolip(month, day);
+    const monthStem = getMonthStem(yearStem, monthBranchIndex);
+    const monthBranch = earthlyBranches[monthBranchIndex];
     const dayStem = heavenlyStems[(dayInCycle + 2) % 10];
     const dayBranch = earthlyBranches[(dayInCycle + 2) % 12];
     let hourStem;
@@ -464,57 +552,3 @@ export function calculateSaju(birthyear, birthmonth, birthday, birthTime) {
         lackingElement
     };
 }
-
-// 부족한 오행에 따른 결과 데이터
-export const elementResults = {
-    '목': {
-        title: '부족한 오행 - 목(木)',
-        description: '목의 기운이 부족합니다. 성장과 발전의 에너지가 필요합니다.',
-        recommendations: [
-            '동쪽 방향에서 활동하세요',
-            '초록색 계열의 옷을 입으세요',
-            '나무나 식물과 가까이 하세요',
-            '새벽 시간대가 좋습니다'
-        ]
-    },
-    '화': {
-        title: '부족한 오행 - 화(火)',
-        description: '화의 기운이 부족합니다. 열정과 활동력이 필요합니다.',
-        recommendations: [
-            '남쪽 방향에서 활동하세요',
-            '빨간색 계열의 옷을 입으세요',
-            '햇볕을 많이 쬐세요',
-            '오전 시간대가 좋습니다'
-        ]
-    },
-    '토': {
-        title: '부족한 오행 - 토(土)',
-        description: '토의 기운이 부족합니다. 안정과 신뢰의 에너지가 필요합니다.',
-        recommendations: [
-            '중앙이나 서남쪽에서 활동하세요',
-            '황색, 갈색 계열의 옷을 입으세요',
-            '산이나 흙과 가까이 하세요',
-            '오후 시간대가 좋습니다'
-        ]
-    },
-    '금': {
-        title: '부족한 오행 - 금(金)',
-        description: '금의 기운이 부족합니다. 의지와 결단력이 필요합니다.',
-        recommendations: [
-            '서쪽 방향에서 활동하세요',
-            '흰색, 회색 계열의 옷을 입으세요',
-            '금속 악세서리를 착용하세요',
-            '저녁 시간대가 좋습니다'
-        ]
-    },
-    '수': {
-        title: '부족한 오행 - 수(水)',
-        description: '수의 기운이 부족합니다. 지혜와 유연성이 필요합니다.',
-        recommendations: [
-            '북쪽 방향에서 활동하세요',
-            '검은색, 파란색 계열의 옷을 입으세요',
-            '물가나 강 근처에서 활동하세요',
-            '밤 시간대가 좋습니다'
-        ]
-    }
-}; 

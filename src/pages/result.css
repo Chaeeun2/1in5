@@ -54,8 +54,8 @@
 .result-header {
   text-align: left;
   margin-top: -10%;
-  height: 43%;
-  min-height: calc(43% + 1px);
+  height: 43.5%;
+  min-height: 43.5%;
   box-sizing: border-box;
   z-index: 2;
   background: white;
@@ -64,6 +64,25 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+  animation-name: slidein;
+  animation-delay: 1s;
+}
+
+@keyframes slidein {
+  0% {
+    margin-top: -10%;
+  }
+
+  50% {
+    margin-top: -20%;
+  }
+
+  100% {
+    margin-top: -10%;
+  }
 }
 
 .result-title {
@@ -73,7 +92,7 @@
   margin: 0 0 0.5rem 0;
   line-height: 1.3;
   letter-spacing: -0.01em;
-  padding: 30px 30px 0px 30px;
+  padding: 30px 25px 0px 30px;
 }
 
 .result-description {
@@ -88,18 +107,6 @@
   margin-bottom: 0;
 }
 
-.arrowdown-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 30px;
-}
-
-.arrowdown {
-  width: 22px;
-}
-
 /* 특징 리스트 */
 .characteristics-list {
   list-style: none;
@@ -107,7 +114,7 @@
   display: flex;
   flex-direction: column;
   padding: 0px 30px 0px 30px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   margin-top: 0;
 }
 
@@ -118,21 +125,39 @@
   opacity: 0.7;
   font-weight: 500;
   line-height: 1.8;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .characteristics-list li span.bold {
   font-weight: 700;
 }
+
+.advice-list span.bold {
+  font-weight: 700;
+}
 /* 오행 차트 섹션 */
 .elements-chart-section {
-  background: #00d3b0;
-  padding: 55px 25px 35px 25px;
+  padding: 50px 25px 40px 25px;
 }
 
-/* 차트 컨테이너 */
-.chart-container {
-  margin: 1rem 0;
+.tree-chart {
+  background: #00d3b0;
+}
+
+.fire-chart {
+  background: #ff5caa;
+}
+
+.water-chart {
+  background: #302f30;
+}
+
+.metal-chart {
+  background: #e3e3e3;
+}
+
+.soil-chart {
+  background: #7b4c00;
 }
 
 .elements-chart {
@@ -211,7 +236,7 @@
 }
 
 .gold-bar {
-  background: #e3e3e3;
+  background: rgb(213, 213, 213);
 }
 
 .ground-bar {
@@ -220,7 +245,7 @@
 
 /* 최솟값 요소 강조 스타일 */
 .chart-bar.notminElement {
-  background: #f0f0f0;
+  background: rgb(243, 243, 243);
 }
 
 .count.notminCount {
@@ -258,6 +283,7 @@
   color: white;
   margin: 0 5px 15px 5px;
   line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
 .elements-chart-section .section-subtitle {
@@ -267,6 +293,21 @@
   opacity: 0.8;
   margin: 0 5px;
   line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+.metal-chart .section-title {
+  color: #191919;
+}
+
+.metal-chart .section-subtitle {
+  color: #191919;
+  opacity: 0.7;
+}
+
+.metal-chart .chart-description {
+  color: #191919;
+  opacity: 0.7;
 }
 
 /* 일반 섹션 타이틀 스타일 */
@@ -274,7 +315,8 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #191919;
-  margin: 0 0 30px 0;
+  margin: 0 0 25px 0;
+  letter-spacing: -0.01em;
 }
 
 .section-subtitle {
@@ -285,7 +327,7 @@
 }
 
 .chart-container {
-  margin: 45px 0 20px 0;
+  margin: 35px 0 20px 0;
   background: white;
   border-radius: 12px;
   padding: 25px;
@@ -320,17 +362,18 @@
 }
 
 .year-section .section-title span {
-  padding-right: 10px;
+  padding-right: 8px;
 }
 
 .year-description {
   font-size: 1rem;
   color: #191919;
   opacity: 0.8;
-  line-height: 1.6;
+  line-height: 1.7;
   margin: 0.8rem 0;
   font-weight: 500;
   word-break: keep-all;
+  letter-spacing: -0.01em;
 }
 
 /* 조언 섹션 */
@@ -344,11 +387,11 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #191919;
-  margin: 0 0 1rem 0;
+  margin: 0 0 25px 0;
 }
 
 .advice-title span {
-  padding-right: 10px;
+  padding-right: 8px;
 }
 
 .advice-list {
@@ -357,6 +400,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  letter-spacing: -0.01em;
 }
 
 .advice-list li {
@@ -369,25 +413,62 @@
 
 /* 개운 아이템 섹션 */
 .items-section {
-  background: #ccede7;
   padding: 55px 25px 45px 25px;
+}
+
+.tree-items-section {
+  background: #ccede7;
+}
+
+.fire-items-section {
+  background: #ffdeee;
+}
+
+.water-items-section {
+  background: #e3e3e3;
+}
+
+.metal-items-section {
+  background: #cccccc;
+}
+
+.soil-items-section {
+  background: #ebe4d9;
 }
 
 .items-section .items-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: #191919;
-  margin: 0 0 35px 0;
+  margin: 0 5px 35px 5px;
+  letter-spacing: -0.01em;
 }
 
 .items-section .items-title span {
-  padding-right: 10px;
+  padding-right: 8px;
 }
 
 .items-wrap {
   padding: 20px;
   background: #ffffff;
   border-radius: 12px;
+}
+
+.tree-items-wrap {
+  box-shadow: -5px 5px 15px 0px rgba(145, 229, 215, 0.4);
+}
+
+.fire-items-wrap {
+  box-shadow: -5px 5px 15px 0px rgba(255, 92, 170, 0.12);
+}
+
+.soil-items-wrap {
+  box-shadow: -5px 5px 15px 0px rgba(123, 76, 0, 0.1);
+}
+
+.metal-items-wrap,
+.water-items-wrap {
+  box-shadow: -5px 5px 15px 0px rgba(47, 47, 47, 0.05);
 }
 
 .items-grid {
@@ -427,14 +508,15 @@
 }
 
 .items-description {
-  font-size: 1;
+  font-size: 1rem;
   color: #191919;
   opacity: 0.6;
   line-height: 1.6;
   font-weight: 500;
   letter-spacing: -0.01em;
-  text-align: left;
+  text-align: center;
   margin: 25px 5px 0 5px;
+  letter-spacing: -0.01em;
 }
 
 /* 하단 버튼 */
@@ -484,5 +566,39 @@
   }
   .result-icon-container {
     border-radius: 0;
+  }
+
+  .result-header {
+    height: 44%;
+    min-height: 44%;
+  }
+
+  .result-title {
+    padding: 30px 25px 0px 25px;
+    font-size: 1.7rem;
+  }
+
+  .result-description {
+    padding: 0px 25px 0px 25px;
+  }
+
+  .characteristics-list {
+    padding: 0px 25px 0px 25px;
+  }
+
+  .elements-chart-section {
+    padding: 50px 20px 40px 20px;
+  }
+
+  .year-section {
+    padding: 70px 25px;
+  }
+
+  .advice-section {
+    padding: 0 25px 70px 25px;
+  }
+
+  .items-section {
+    padding: 55px 20px 45px 20px;
   }
 }

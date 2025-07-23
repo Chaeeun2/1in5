@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/container.css";
-import "./TreeResult.css";
+import "./result.css";
 import arrowdown from "../assets/images/Vector 39.png";
 import tree_1 from "../assets/images/tree_1.jpg";
 import tree_2 from "../assets/images/tree_2.jpg";
@@ -15,6 +15,7 @@ const TreeResult = () => {
   const formData = location.state?.formData;
   const sajuResult = location.state?.sajuResult;
   const userName = formData?.name || "사용자";
+
 
   // 오행 데이터 (기본값 설정)
   const elements = sajuResult?.elements || {
@@ -36,47 +37,28 @@ const TreeResult = () => {
   };
 
   const handleShare = async () => {
-    const shareData = {
-      title: `${userName}님의 사주 결과`,
-      text: `${userName}님의 사주를 분석했어요! 부족한 오행을 확인해보세요.`,
-      url: 'https://1in5.wep.app'
-    };
+    const textToCopy = `🌳🔥🌍🔑💧
+  
+내 사주에는 어떤 것이 부족할까?
+부족한 오행을 채우고 삶의 균형을 찾아보아요.
 
-    // Web Share API 지원 여부 확인 (주로 모바일에서 지원)
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-        console.log('공유 성공');
-      } catch (error) {
-        // 사용자가 공유를 취소한 경우
-        if (error.name !== 'AbortError') {
-          console.error('공유 실패:', error);
-          // Web Share API 실패 시 클립보드 복사로 fallback
-          fallbackToClipboard();
-        }
-      }
-    } else {
-      // Web Share API를 지원하지 않는 브라우저에서는 클립보드 복사
-      fallbackToClipboard();
-    }
-  };
-
-  const fallbackToClipboard = async () => {
+https://issuegraphy.web.app/`;
+    
     try {
-      await navigator.clipboard.writeText('https://1in5.wep.app');
-      alert('링크가 클립보드에 복사되었습니다! 📋');
+      await navigator.clipboard.writeText(textToCopy);
+      alert('텍스트가 클립보드에 복사되었습니다.');
     } catch (error) {
       console.error('클립보드 복사 실패:', error);
       // 브라우저가 clipboard API를 지원하지 않는 경우 fallback
       const textArea = document.createElement('textarea');
-      textArea.value = 'https://1in5.wep.app';
+      textArea.value = textToCopy;
       document.body.appendChild(textArea);
       textArea.select();
       try {
         document.execCommand('copy');
-        alert('링크가 클립보드에 복사되었습니다! 📋');
+        alert('텍스트가 클립보드에 복사되었습니다.');
       } catch (fallbackError) {
-        alert('클립보드 복사에 실패했습니다. 수동으로 복사해주세요: https://1in5.wep.app');
+        alert('클립보드 복사에 실패했습니다.');
       }
       document.body.removeChild(textArea);
     }
@@ -98,7 +80,7 @@ const TreeResult = () => {
                 disablePictureInPicture
                 preload="auto"
               >
-                <source src="/videos/Main.mp4" type="video/mp4" />
+                <source src="https://pub-3b32aa9b7b494bbfb9f93e2d333a6b9a.r2.dev/tree.mp4" type="video/mp4" />
                 비디오를 지원하지 않는 브라우저입니다.
               </video>
             </div>
@@ -131,15 +113,12 @@ const TreeResult = () => {
                   가지고 있어요.
                 </li>
               </ul>
-              <div className="arrowdown-container">
-                <img className="arrowdown" src={arrowdown} alt="" />
-              </div>
             </div>
           </div>
 
           <div className="des-wrap">
             {/* 오행 차트 섹션 */}
-            <div className="elements-chart-section">
+            <div className="elements-chart-section tree-chart">
               <h3 className="section-title">{userName}님이 가진 오행</h3>
               <p className="section-subtitle">
                 나의 기운을 알면, 부족한 부분을 채워
@@ -171,10 +150,10 @@ const TreeResult = () => {
                     <div className="element-count">
                       <span
                         className={`count ${
-                          isMinElement(elements.water) ? "" : "notminCount"
+                          isMinElement(elements.ground) ? "" : "notminCount"
                         }`}
                       >
-                        {elements.water}개
+                        {elements.ground}개
                       </span>
                     </div>
                     <div className="element-count">
@@ -189,10 +168,10 @@ const TreeResult = () => {
                     <div className="element-count">
                       <span
                         className={`count ${
-                          isMinElement(elements.ground) ? "" : "notminCount"
+                          isMinElement(elements.water) ? "" : "notminCount"
                         }`}
                       >
-                        {elements.ground}개
+                        {elements.water}개
                       </span>
                     </div>
                   </div>
@@ -216,12 +195,12 @@ const TreeResult = () => {
                         }}
                       ></div>
                       <div
-                        className={`chart-bar water-bar ${
-                          isMinElement(elements.water) ? "" : "notminElement"
+                        className={`chart-bar ground-bar ${
+                          isMinElement(elements.ground) ? "" : "notminElement"
                         }`}
                         style={{
                           height: `${Math.max(
-                            (elements.water / 5) * 100,
+                            (elements.ground / 5) * 100,
                             10
                           )}%`,
                         }}
@@ -235,12 +214,12 @@ const TreeResult = () => {
                         }}
                       ></div>
                       <div
-                        className={`chart-bar ground-bar ${
-                          isMinElement(elements.ground) ? "" : "notminElement"
+                        className={`chart-bar water-bar ${
+                          isMinElement(elements.water) ? "" : "notminElement"
                         }`}
                         style={{
                           height: `${Math.max(
-                            (elements.ground / 5) * 100,
+                            (elements.water / 5) * 100,
                             10
                           )}%`,
                         }}
@@ -287,21 +266,21 @@ const TreeResult = () => {
                 <span>🌳</span>나무를 채우면 이런 게 좋아요.
               </h3>
               <ul className="advice-list">
-                <li>• 타인을 이해하는 공감능력이 생겨요 👂</li>
-                <li>• 친화력이 좋아져요 👯‍♂️</li>
-                <li>• 자신감이 생겨요 💪</li>
+                <li>• 타인을 이해하는 <span className="bold">공감능력</span>이 생겨요 👂</li>
+                <li>• <span className="bold">친화력</span>이 좋아져요 👯‍♂️</li>
+                <li>• <span className="bold">자신감</span>이 생겨요 💪</li>
               </ul>
             </div>
 
             {/* 개운 아이템 섹션 */}
-            <div className="items-section">
+            <div className="items-section tree-items-section">
               <h3 className="items-title">
                 <span>🍀</span>행운 가득 채워줄 개운 아이템
               </h3>
-              <div className="items-wrap">
+              <div className="items-wrap tree-items-wrap">
                 <div className="items-grid">
                   <a
-                    href="https://www.google.com"
+                    href="https://smartstore.naver.com/issuegraphy/products/12137200640"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -314,7 +293,7 @@ const TreeResult = () => {
                   </a>
 
                   <a
-                    href="https://www.google.com"
+                    href="https://smartstore.naver.com/issuegraphy/products/12135723387"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -327,7 +306,7 @@ const TreeResult = () => {
                   </a>
 
                   <a
-                    href="https://www.google.com"
+                    href="https://smartstore.naver.com/issuegraphy/products/12128606033"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -340,7 +319,7 @@ const TreeResult = () => {
                   </a>
 
                   <a
-                    href="https://www.google.com"
+                    href="https://smartstore.naver.com/issuegraphy/products/12124964863"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -355,9 +334,9 @@ const TreeResult = () => {
               </div>
 
               <p className="items-description">
-                부족한 오행이 여러 개라면, 다른 기운들도 함께
+                부족한 오행이 여러 개라면,
                 <br />
-                채워주는 것이 좋아요
+                다른 기운들도 함께 채워주는 것이 좋아요
               </p>
             </div>
 
@@ -365,7 +344,7 @@ const TreeResult = () => {
              <div className="result-actions">
                <button className="action-btn primary" onClick={handleShare}>공유하기</button>
                           <button className="action-btn secondary">
-                              <a href="https://www.google.com"
+                              <a href="https://smartstore.naver.com/issuegraphy/category/ALL?cp=1"
                     target="_blank"
                     rel="noopener noreferrer">
                 부족한 기운 개운하러 가기</a>

@@ -29,7 +29,7 @@ const Cover = () => {
               disablePictureInPicture
               preload="auto"
             >
-              <source src="/videos/Main.mp4" type="video/mp4" />
+              <source src="https://pub-3b32aa9b7b494bbfb9f93e2d333a6b9a.r2.dev/Main.mp4" type="video/mp4" />
               비디오를 지원하지 않는 브라우저입니다.
             </video>
           </div>
