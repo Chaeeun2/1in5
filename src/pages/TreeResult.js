@@ -342,13 +342,14 @@ https://issuegraphy.web.app/`;
 
                          {/* 하단 버튼 */}
              <div className="result-actions">
-               <button className="action-btn primary" onClick={handleShare}>공유하기</button>
-                          <button className="action-btn secondary">
-                              <a href="https://smartstore.naver.com/issuegraphy/category/ALL?cp=1"
+              <button className="action-btn primary" onClick={handleShare}>공유하기</button>
+              <a href="https://smartstore.naver.com/issuegraphy/category/ALL?cp=1"
                     target="_blank"
                     rel="noopener noreferrer">
-                부족한 기운 개운하러 가기</a>
-              </button>
+                          <button className="action-btn secondary">
+                부족한 기운 개운하러 가기
+                </button>
+                </a>
             </div>
           </div>
         </div>

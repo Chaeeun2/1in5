@@ -546,10 +546,14 @@
   flex: 1;
 }
 
+a:has(.action-btn.secondary) {
+  flex: 3;
+}
+
 .action-btn.secondary {
   background: #191919;
   color: white;
-  flex: 3;
+  width: 100%;
 }
 
 .error {
