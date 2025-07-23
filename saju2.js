@@ -375,7 +375,7 @@ function calculateSaju(birthyear, birthmonth, birthday, birthTime) {
     } else {
         hourStem = '시간';
         hourBranch = '모름';
-        console.log(lunar.year, lunar.month, lunar.day);
+        // console.log(lunar.year, lunar.month, lunar.day);
     }
 
     if (yearStem == "갑") {

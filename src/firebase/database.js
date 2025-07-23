@@ -40,7 +40,7 @@ export const getSajuByBirthInfo = async (birthYear, birthMonth, birthDay, birthH
 export const saveSajuData = async (sajuData) => {
   try {
     const docRef = await addDoc(collection(db, 'saju'), sajuData);
-    console.log('문서가 작성되었습니다. ID: ', docRef.id);
+    // console.log('문서가 작성되었습니다. ID: ', docRef.id);
     return docRef.id;
   } catch (error) {
     console.error('문서 추가 중 오류 발생: ', error);
@@ -72,7 +72,7 @@ export const getSajuById = async (id) => {
     if (docSnap.exists()) {
       return { id: docSnap.id, ...docSnap.data() };
     } else {
-      console.log('해당 문서가 없습니다!');
+      // console.log('해당 문서가 없습니다!');
       return null;
     }
   } catch (error) {
@@ -86,7 +86,7 @@ export const updateSajuData = async (id, updateData) => {
   try {
     const docRef = doc(db, 'saju', id);
     await updateDoc(docRef, updateData);
-    console.log('문서가 업데이트되었습니다.');
+    // console.log('문서가 업데이트되었습니다.');
   } catch (error) {
     console.error('문서 업데이트 중 오류 발생: ', error);
     throw error;
@@ -97,7 +97,7 @@ export const updateSajuData = async (id, updateData) => {
 export const deleteSajuData = async (id) => {
   try {
     await deleteDoc(doc(db, 'saju', id));
-    console.log('문서가 삭제되었습니다.');
+    // console.log('문서가 삭제되었습니다.');
   } catch (error) {
     console.error('문서 삭제 중 오류 발생: ', error);
     throw error;

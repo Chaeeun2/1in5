@@ -13,28 +13,28 @@ const Loading = () => {
     const timer = setTimeout(() => {
       const { lackingElement, formData, sajuResult } = location.state;
       
-      console.log('🚀 ========== Loading.js 전달받은 데이터 ==========');
-      console.log('👤 이름:', formData?.name);
-      console.log('📅 생년월일:', `${formData?.birthYear}년 ${formData?.birthMonth}월 ${formData?.birthDay}일`);
-      console.log('🕐 시간:', formData?.unknownTime ? '모름' : `${formData?.birthHour}시`);
-      console.log('');
+      // console.log('🚀 ========== Loading.js 전달받은 데이터 ==========');
+      // console.log('👤 이름:', formData?.name);
+      // console.log('📅 생년월일:', `${formData?.birthYear}년 ${formData?.birthMonth}월 ${formData?.birthDay}일`);
+      // console.log('🕐 시간:', formData?.unknownTime ? '모름' : `${formData?.birthHour}시`);
+      // console.log('');
       if (sajuResult) {
-        console.log('🔮 사주 (연월일시):');
-        console.log(`   년주: ${sajuResult.saju.year}`);
-        console.log(`   월주: ${sajuResult.saju.month}`);
-        console.log(`   일주: ${sajuResult.saju.day}`);
-        console.log(`   시주: ${sajuResult.saju.hour}`);
-        console.log('');
-        console.log('🌟 오행 분석:');
-        console.log(`   목(木): ${sajuResult.elements.tree}`);
-        console.log(`   화(火): ${sajuResult.elements.fire}`);
-        console.log(`   토(土): ${sajuResult.elements.ground}`);
-        console.log(`   금(金): ${sajuResult.elements.gold}`);
-        console.log(`   수(水): ${sajuResult.elements.water}`);
-        console.log('');
+        // console.log('🔮 사주 (연월일시):');
+        // console.log(`   년주: ${sajuResult.saju.year}`);
+        // console.log(`   월주: ${sajuResult.saju.month}`);
+        // console.log(`   일주: ${sajuResult.saju.day}`);
+        // console.log(`   시주: ${sajuResult.saju.hour}`);
+        // console.log('');
+        // console.log('🌟 오행 분석:');
+        // console.log(`   목(木): ${sajuResult.elements.tree}`);
+        // console.log(`   화(火): ${sajuResult.elements.fire}`);
+        // console.log(`   토(土): ${sajuResult.elements.ground}`);
+        // console.log(`   금(金): ${sajuResult.elements.gold}`);
+        // console.log(`   수(水): ${sajuResult.elements.water}`);
+        // console.log('');
       }
-      console.log('⚠️  부족한 오행:', lackingElement);
-      console.log('📊 부족한 오행 타입:', typeof lackingElement);
+      // console.log('⚠️  부족한 오행:', lackingElement);
+      // console.log('📊 부족한 오행 타입:', typeof lackingElement);
       
       // 오행을 영어 슬러그로 변환
       const elementSlugMap = {
@@ -46,9 +46,9 @@ const Loading = () => {
       };
       
       const slug = elementSlugMap[lackingElement] || lackingElement;
-      console.log('🎯 최종 슬러그:', slug);
-      console.log('🚀 이동할 경로:', `/result/${slug}`);
-      console.log('======================================');
+      // console.log('🎯 최종 슬러그:', slug);
+      // console.log('🚀 이동할 경로:', `/result/${slug}`);
+      // console.log('======================================');
       
       navigate(`/result/${slug}`, {
         state: {

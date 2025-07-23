@@ -180,26 +180,26 @@ const SajuInput = () => {
         );
 /*
         // 콘솔에 사주 정보 출력 (기존 데이터가 있는 경우)
-        console.log('====== 사주팔자 정보 (기존 데이터) ======');
-        console.log(`이름: ${formData.name}`);
-        console.log(`생년월일: ${birthYear}년 ${birthMonth}월 ${birthDay}일`);
-        console.log(`태어난 시간: ${formData.unknownTime ? '모름' : formData.birthTime}`);
-        console.log('');
-        console.log('사주팔자:');
-        console.log(`년주: ${tempSajuResult.saju.year}`);
-        console.log(`월주: ${tempSajuResult.saju.month}`);
-        console.log(`일주: ${tempSajuResult.saju.day}`);
-        console.log(`시주: ${tempSajuResult.saju.hour}`);
-        console.log('');
-        console.log('오행 분포:');
-        console.log(`목(木): ${tempSajuResult.elements.tree}개`);
-        console.log(`화(火): ${tempSajuResult.elements.fire}개`);
-        console.log(`토(土): ${tempSajuResult.elements.ground}개`);
-        console.log(`금(金): ${tempSajuResult.elements.gold}개`);
-        console.log(`수(水): ${tempSajuResult.elements.water}개`);
-        console.log('');
-        console.log(`부족한 오행: ${lackingElement} (DB에서 가져옴)`);
-        console.log('========================================');
+        // console.log('====== 사주팔자 정보 (기존 데이터) ======');
+        // console.log(`이름: ${formData.name}`);
+        // console.log(`생년월일: ${birthYear}년 ${birthMonth}월 ${birthDay}일`);
+        // console.log(`태어난 시간: ${formData.unknownTime ? '모름' : formData.birthTime}`);
+        // console.log('');
+        // console.log('사주팔자:');
+        // console.log(`년주: ${tempSajuResult.saju.year}`);
+        // console.log(`월주: ${tempSajuResult.saju.month}`);
+        // console.log(`일주: ${tempSajuResult.saju.day}`);
+        // console.log(`시주: ${tempSajuResult.saju.hour}`);
+        // console.log('');
+        // console.log('오행 분포:');
+        // console.log(`목(木): ${tempSajuResult.elements.tree}개`);
+        // console.log(`화(火): ${tempSajuResult.elements.fire}개`);
+        // console.log(`토(土): ${tempSajuResult.elements.ground}개`);
+        // console.log(`금(金): ${tempSajuResult.elements.gold}개`);
+        // console.log(`수(水): ${tempSajuResult.elements.water}개`);
+        // console.log('');
+        // console.log(`부족한 오행: ${lackingElement} (DB에서 가져옴)`);
+        // console.log('========================================');
 */
       } else {
         // 3. DB에 없다면 사주 계산 후 저장
@@ -220,26 +220,26 @@ const SajuInput = () => {
         );
    /*     
         // 콘솔에 사주 정보 출력
-        console.log('====== 사주팔자 정보 ======');
-        console.log(`이름: ${formData.name}`);
-        console.log(`생년월일: ${birthYear}년 ${birthMonth}월 ${birthDay}일`);
-        console.log(`태어난 시간: ${formData.unknownTime ? '모름' : formData.birthTime}`);
-        console.log('');
-        console.log('사주팔자:');
-        console.log(`년주: ${sajuResult.saju.year}`);
-        console.log(`월주: ${sajuResult.saju.month}`);
-        console.log(`일주: ${sajuResult.saju.day}`);
-        console.log(`시주: ${sajuResult.saju.hour}`);
-        console.log('');
-        console.log('오행 분포:');
-        console.log(`목(木): ${sajuResult.elements.tree}개`);
-        console.log(`화(火): ${sajuResult.elements.fire}개`);
-        console.log(`토(土): ${sajuResult.elements.ground}개`);
-        console.log(`금(金): ${sajuResult.elements.gold}개`);
-        console.log(`수(水): ${sajuResult.elements.water}개`);
-        console.log('');
-        console.log(`부족한 오행: ${sajuResult.lackingElement}`);
-        console.log('==========================');
+        // console.log('====== 사주팔자 정보 ======');
+        // console.log(`이름: ${formData.name}`);
+        // console.log(`생년월일: ${birthYear}년 ${birthMonth}월 ${birthDay}일`);
+        // console.log(`태어난 시간: ${formData.unknownTime ? '모름' : formData.birthTime}`);
+        // console.log('');
+        // console.log('사주팔자:');
+        // console.log(`년주: ${sajuResult.saju.year}`);
+        // console.log(`월주: ${sajuResult.saju.month}`);
+        // console.log(`일주: ${sajuResult.saju.day}`);
+        // console.log(`시주: ${sajuResult.saju.hour}`);
+        // console.log('');
+        // console.log('오행 분포:');
+        // console.log(`목(木): ${sajuResult.elements.tree}개`);
+        // console.log(`화(火): ${sajuResult.elements.fire}개`);
+        // console.log(`토(土): ${sajuResult.elements.ground}개`);
+        // console.log(`금(金): ${sajuResult.elements.gold}개`);
+        // console.log(`수(水): ${sajuResult.elements.water}개`);
+        // console.log('');
+        // console.log(`부족한 오행: ${sajuResult.lackingElement}`);
+        // console.log('==========================');
         */
         lackingElement = sajuResult.lackingElement;
         

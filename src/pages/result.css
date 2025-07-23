@@ -245,7 +245,7 @@
 
 /* 최솟값 요소 강조 스타일 */
 .chart-bar.notminElement {
-  background: rgb(243, 243, 243);
+  background: rgb(244, 244, 244);
 }
 
 .count.notminCount {

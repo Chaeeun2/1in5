@@ -375,7 +375,7 @@ function calculateSaju(birthyear, birthmonth, birthday, birthTime) {
     } else {
         hourStem = '시간';
         hourBranch = '모름';
-        console.log(lunar.year, lunar.month, lunar.day);
+        // console.log(lunar.year, lunar.month, lunar.day);
     }
 
     if (yearStem == "갑") {
@@ -586,7 +586,7 @@ function calculateAndDisplaySaju(birthyear, birthmonth, birthday, birthTime) {
         let values = [tree, fire, ground, gold, water];
         let minValue = Math.min(...values);
 
-        console.log(minValue);
+        // console.log(minValue);
 
     } catch (error) {
         return `<p>오류: ${error.message}</p>`;
