@@ -33,27 +33,94 @@ const MetalResult = () => {
     navigate("/");
   };
 
+  // Google Analytics 이벤트 트래킹 함수
+  const trackItemClick = (itemName, itemUrl) => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'item_click', {
+        event_category: 'ecommerce',
+        event_label: `metal_result_${itemName}`,
+        page_title: 'MetalResult',
+        item_url: itemUrl
+      });
+    }
+  };
+
+  const trackShopAllClick = () => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'shop_all_click', {
+        event_category: 'ecommerce',
+        event_label: 'metal_result_shop_all',
+        page_title: 'MetalResult'
+      });
+    }
+  };
+
   const handleShare = async () => {
-    const textToCopy = `🌳🔥🌍🔑💧
+    // Google Analytics 이벤트 추적
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'share_click', {
+        event_category: 'engagement',
+        event_label: 'metal_result_share',
+        page_title: 'MetalResult'
+      });
+    }
+
+    const shareText = `🌳🔥🌍🔑💧
 
 나는 어떤 기운이 부족할까?
 나의 사주에서 부족한 오행을 찾아보아요.
 
 https://issuegraphy.web.app/`;
     
+    // Web Share API 지원 확인
+    if (navigator.share) {
+      const shareData = {
+        title: '내 사주에는 어떤 것이 부족할까?',
+        text: shareText,
+        url: 'https://issuegraphy.web.app/'
+      };
+      
+      // canShare 확인 (있는 경우에만)
+      if (navigator.canShare) {
+        const canShareResult = navigator.canShare(shareData);
+        
+        if (!canShareResult) {
+          fallbackCopyToClipboard(shareText);
+          return;
+        }
+      }
+      
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          return;
+        }
+        
+        fallbackCopyToClipboard(shareText);
+        return;
+      }
+    }
+    
+    // Web Share API를 지원하지 않는 경우
+    fallbackCopyToClipboard(shareText);
+  };
+
+  const fallbackCopyToClipboard = async (text) => {
     try {
-      await navigator.clipboard.writeText(textToCopy);
-      alert('텍스트가 클립보드에 복사되었습니다.');
+      await navigator.clipboard.writeText(text);
+      alert('복사된 텍스트를 친구에게 공유해보세요!');
     } catch (error) {
       console.error('클립보드 복사 실패:', error);
       // 브라우저가 clipboard API를 지원하지 않는 경우 fallback
       const textArea = document.createElement('textarea');
-      textArea.value = textToCopy;
+      textArea.value = text;
       document.body.appendChild(textArea);
       textArea.select();
       try {
         document.execCommand('copy');
-        alert('텍스트가 클립보드에 복사되었습니다.');
+        alert('복사된 텍스트를 친구에게 공유해보세요!');
       } catch (fallbackError) {
         alert('클립보드 복사에 실패했습니다.');
       }
@@ -273,6 +340,7 @@ https://issuegraphy.web.app/`;
                     href="https://smartstore.naver.com/issuegraphy/products/12137277246"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackItemClick('keychain', 'https://smartstore.naver.com/issuegraphy/products/12137277246')}
                   >
                     <div className="item-card">
                       <div className="item-image-placeholder">
@@ -286,6 +354,7 @@ https://issuegraphy.web.app/`;
                     href="https://smartstore.naver.com/issuegraphy/products/12135741562"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackItemClick('sticker', 'https://smartstore.naver.com/issuegraphy/products/12135741562')}
                   >
                     <div className="item-card">
                       <div className="item-image-placeholder">
@@ -299,6 +368,7 @@ https://issuegraphy.web.app/`;
                     href="https://smartstore.naver.com/issuegraphy/products/12128785479"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackItemClick('landscape_poster', 'https://smartstore.naver.com/issuegraphy/products/12128785479')}
                   >
                     <div className="item-card">
                       <div className="item-image-placeholder">
@@ -312,6 +382,7 @@ https://issuegraphy.web.app/`;
                     href="https://smartstore.naver.com/issuegraphy/products/12125075868"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackItemClick('material_poster', 'https://smartstore.naver.com/issuegraphy/products/12125075868')}
                   >
                     <div className="item-card">
                       <div className="item-image-placeholder">
@@ -335,7 +406,8 @@ https://issuegraphy.web.app/`;
               <button className="action-btn primary" onClick={handleShare}>공유하기</button>
               <a href="https://smartstore.naver.com/issuegraphy/category/ALL?cp=1"
                     target="_blank"
-                    rel="noopener noreferrer">
+                    rel="noopener noreferrer"
+                    onClick={trackShopAllClick}>
                           <button className="action-btn secondary">
                 부족한 기운 개운하러 가기
                 </button>
