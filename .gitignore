@@ -36,4 +36,4 @@ pglite-debug.log*
 .firebase/
 
 # 운영체제
-Thumbs.db 
+Thumbs.db firebase-debug.log
