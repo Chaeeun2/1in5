@@ -303,17 +303,34 @@ https://issuegraphy.web.app/`;
               </p>
             </div>
 
-            {/* 2025년 섹션 */}
+            {/* 2026년 섹션 */}
             <div className="year-section">
               <h3 className="section-title">
-                <span>📅</span>2025년, 어떠셨나요?
+                <span>📅</span>2026년, 어떠셨나요?
               </h3>
               <p className="year-description">
-                2025년에는 물의 기운이 거의 들어오지 않았어요.
+                2026년에는 불의 기운이 유난히 강했어요.
                 <br />
-                              물이 부족한 {userName}님은 더더욱 마음이 메말랐겠어요. 뭔가 하려 해도 이유 없이 지치지는 않았나요?
-                              <br/><br/>
-2026년에는 불의 기운이 더 강해져 부담이 커질 수 있어요.<br/>불이 강할 때는, 물을 보충해주어 열기를 식히고 균형을 찾을 수 있어요.
+                물이 부족한 {userName}님에게는 뜨거운 열기를 식힐 여유가
+                없었을 수 있겠어요. 작은 일에도 쉽게 예민해지고, 바쁜 일상
+                속에서 몸과 마음이 지쳤던 한 해였을 거예요.
+              </p>
+            </div>
+
+            {/* 2027년 섹션 */}
+            <div className="year-section">
+              <h3 className="section-title">
+                <span>☀️</span>2027년에는 이럴 것 같아요.
+              </h3>
+              <p className="year-description">
+                2027년에는 불의 기운이 조금 누그러지지만, 흙의 기운이 물의
+                흐름을 막을 수 있어요.
+                <br />
+                감정이 답답하거나 생각이 많아질 수 있겠어요.
+                <br />
+                <br />
+                물을 보충해주면 마음에 여유가 생기고, 한결 유연하게 일상을
+                이어갈 수 있어요.
               </p>
             </div>
 

@@ -354,11 +354,15 @@
   font-weight: 500;
 }
 
-/* 2025년 섹션 */
+/* 연도(2026·2027) 섹션 */
 .year-section {
   background: #ffffff;
   border-radius: 20px;
   padding: 70px 30px;
+}
+
+.year-section + .year-section {
+  padding-top: 0;
 }
 
 .year-section .section-title span {
@@ -596,6 +600,10 @@ a:has(.action-btn.secondary) {
 
   .year-section {
     padding: 70px 25px;
+  }
+
+  .year-section + .year-section {
+    padding-top: 0;
   }
 
   .advice-section {

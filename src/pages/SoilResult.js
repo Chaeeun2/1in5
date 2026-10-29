@@ -303,19 +303,34 @@ https://issuegraphy.web.app/`;
               </p>
             </div>
 
-            {/* 2025년 섹션 */}
+            {/* 2026년 섹션 */}
             <div className="year-section">
               <h3 className="section-title">
-                <span>📅</span>2025년, 어떠셨나요?
+                <span>📅</span>2026년, 어떠셨나요?
               </h3>
               <p className="year-description">
-                2025년에는 나무의 기운이 들어왔어요.
+                2026년에는 불의 기운이 강하게 들어왔어요.
                 <br />
-                              땅이 부족한 {userName}님에게는, 나무가 뿌리내릴 땅이 없어서 열심히 해도 붕뜬 느낌이었거나, 마음이 안정되지 않았을 수 있겠어요.
-                              <br />
-                            <br />
-나무는 땅에 뿌리를 내리기 때문에, 땅을 보충해주면
-감정적으로나 육체적으로 안정을 찾을 수 있어요.
+                토가 부족한 {userName}님에게는 불이 흙을 만들어내듯, 새로운
+                기반을 마련할 기회가 생겼을 수 있겠어요. 다만 넘치는 열정에
+                비해 마음의 안정은 부족했을지도 몰라요.
+              </p>
+            </div>
+
+            {/* 2027년 섹션 */}
+            <div className="year-section">
+              <h3 className="section-title">
+                <span>☀️</span>2027년에는 이럴 것 같아요.
+              </h3>
+              <p className="year-description">
+                2027년에는 흙의 기운이 본격적으로 들어와요.
+                <br />
+                토가 부족한 {userName}님에게는 흔들리던 마음을 다잡고, 삶의
+                기반을 단단히 다질 수 있는 시기예요.
+                <br />
+                <br />
+                흙의 기운을 잘 활용하면 그동안의 노력이 결실을 맺고 안정감을
+                되찾을 수 있어요.
               </p>
             </div>
 
